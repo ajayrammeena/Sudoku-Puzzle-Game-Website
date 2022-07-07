@@ -1,0 +1,524 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&family=Roboto&display=swap');
+:root {
+    --bg-main: #f0f2f5;
+    --bg-body: #fff;
+    --color-txt: #000;
+    --filled-color: #000;
+    --filled-bg: #caf0f8;
+    --white: #fff;
+    --blue: #00aeef;
+    --red: #e91e63;
+    --black: #000;
+    --nav-size: 65px;
+    --sudoku-cell-size: 40px;
+    --border-radius: 10px;
+    --space-y: 12px;
+    --gap: 3.5px;
+    --font-size: 1.3rem;
+    --font-size-lg: 1.8rem;
+    --font-size-xl: 2.5rem;
+    --bs-primary-rgb: 13, 110, 253;
+    --bs-secondary-rgb: 108, 117, 125;
+    --bs-success-rgb: 25, 135, 84;
+    --bs-info-rgb: 13, 202, 240;
+    --bs-warning-rgb: 255, 193, 7;
+    --bs-danger-rgb: 220, 53, 69;
+    --bs-light-rgb: 248, 249, 250;
+    --bs-dark-rgb: 33, 37, 41;
+    --bs-white-rgb: 255, 255, 255;
+    --bs-black-rgb: 0, 0, 0;
+    --bs-body-color-rgb: 33, 37, 41;
+    --btn-secondary-color: #dda0dd;
+}
+
+/* When we use dark theme 
+Change the color of body,text,and filled color*/
+.dark {
+    --bg-main: #2a2a38;
+    --bg-body: #1a1a2e;
+    --color-txt: #6a6a6a;
+    --filled-color: #4f4f63;
+    --filled-bg: #000;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    /* The box-sizing property allows us to include the padding and border in an element's total width and height.
+     If you set box-sizing: border-box; on an element, padding and border are included in the width and height: */
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: "Potta One", cursive;
+    /* height: 100vh; */
+    background-color: var(--bg-body);
+    /*  The overflow is clipped, and the rest of the content will be invisible */
+    overflow-x: hidden;
+    /* The user-select property specifies whether the text of an element can be selected.
+    In web browsers, if you double-click on some text it will be selected/highlighted. This property can be used to prevent this. */
+    user-select: none;
+}
+/* This is for we take input of user name 
+IN our HTML is There Main class division nd it has 1 division class "Screen".
+The "Screen" class has two divison as class "start scree" and "game screen".
+The in "start screen" class we have 3 division class and one input.
+*/
+
+/* Style the input filed */
+input{
+   font-family: 'Roboto', sans-serif;
+    border: 2px solid var(--bg-main);
+    color: var(--color-txt);
+}
+/* It means when you hover,or focus on input field,  then change the color of border to blue */
+input:hover,
+input:focus {
+    border-color: var(--blue);
+}
+a{
+    font-family: "Potta One", cursive;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 15px;
+    padding: 0 8px;
+    border-radius: 10px;
+    border: 1px solid aqua;
+}
+/* For nav bar */
+nav{
+    background-color:#501f62;
+    color: var(--color-txt);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 5px 2px var(--bg-main);
+    z-index: 99;
+}
+.nav-container {
+    max-width: 1280px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: var(--nav-size);
+}
+/* In HTMl we have written welcome text under this class which in nav bar */
+.nav-logo {
+    font-size: var(--font-size-lg);
+    color: var(--blue);
+}
+
+/* Under nav baar we have created theme mode which has two theme sun and moon and it's class is "dark-mode-toggle"*/
+.dark-mode-toggle{
+    color:var(--blue);
+    font-size: var(--font-size-lg);
+    color: var(--blue);
+}
+/* inline-block allows us to set a width and height on the element*/
+.bxs-moon{
+    display: inline-block;
+}
+
+.dark.bxs-sun{
+    display: inline-block;
+}
+
+.dark .bxs-moon {
+    display: none;
+}
+
+/* End of nav baar for button */
+
+.main{
+    padding-top: var(--nav-size);
+    display: grid;
+    place-items: center;
+}
+/* In main Game we have Three classes
+1."main-sudoku-grid" := it's consist 81 cells
+2.""main-game-info-box main-game-info-time" := It's consist game time and pause button
+3."numbers" : it consist 9 number which are supposed to fill and one delete button
+ */
+ /* "main" division class has one division "screen" */
+ .screen {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-width: 400px;
+}
+ /* "main" division class has one division "screen"  and then "screen" has 2 division class
+ 1."start-screen" and "game screen"
+ "start-screen" has three divison and one input and we want all of them in center one below each
+ */
+ .start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-screen.active {
+    transform: translateX(0);
+}
+/* any element that is not first child of "screen-class" */
+.start-screen > * + * {
+    margin-top: 20px;
+}
+/* Additing input name element */
+.input-name {
+    height: 80px;
+    width: 280px;
+    border-radius: var(--border-radius);
+    outline: 0;
+    background-color: var(--bg-main);
+    padding: 20px;
+    font-size: var(--font-size-lg);
+    text-align: center;
+}
+
+.btn {
+    height: 80px;
+    width: 280px;
+    background-color: var(--bg-main);
+    color: var(--color-txt);
+    border-radius: var(--border-radius);
+    /* As all the buttons are in class "start-screen" which has display 
+    flex but to put text in center in buttons we can make them gird and use "placed-item" property of gird */
+    display: grid;
+    place-items: center;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.input-err {
+    border-color: var(--red);
+    animation: bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(20px);
+    }
+    50% {
+        transform: translateX(-20px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+/* Since tha "main-game" have three division class and we want them one below to other manner */
+.main-game {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    /* The translateX() CSS function repositions an element horizontally on the 2D plane. Its result is a <transform-function> data type. */
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+/*
+To make gird: we have 81 divisions in "main-gird-class" and all are have "main-gird-cell".
+
+ */
+ /* When game sceen active, it will pop-up on same "start-screen" so start will be hiddnex */
+ .main-game.active {
+    transform: translateX(0);
+}
+
+.main-sudoku-grid {
+    display: grid;
+    gap: var(--gap);
+    /* we have 81 division in division class "main-sudoku-gird" and we have made "main-game" class flex and flex-direction "column".
+    because of this all 81 gird will be in one column, now we want to make them in 9*9 grid. So we will split these gird in 9 columns
+    */
+    grid-template-columns: repeat(9, auto); 
+}
+
+/* Here we are adding properties to the each grid cell as we have given all gird cell on class "main-gird-cell".
+it will make grid cell visible as we are giving gird cell height,width,border-redius, and given below and making every div to gird*/
+.main-grid-cell{
+    height: var(--sudoku-cell-size);
+    width: var(--sudoku-cell-size);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-main);
+    color: var(--blue);
+    display: grid;
+    place-items: center;
+    font-size: var(--font-size);
+    cursor: pointer;
+}
+
+/* Decide the colors when you select a grid cell */
+
+/* when gird cell is filled */
+.main-grid-cell.filled {
+    background-color: var(--filled-bg);
+    color: var(--filled-color);
+}
+
+/* When gird cell is selected  change the background color to blue and color text to white*/
+.main-grid-cell.selected {
+    background-color: var(--blue);
+    color: var(--white);
+}
+/* When we hover on gird cell create a border on cell which has width 2px and color is --blue */
+.main-grid-cell:hover {
+    border: 2px solid var(--blue);
+}
+
+.main-grid-cell.hover {
+    border: 3px solid var(--blue);
+}
+
+.dark .main-grid-cell.hover {
+    border: 1px solid var(--blue);
+}
+/* if we put an wrong value in gird cell */
+.main-grid-cell.err {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+/* The 2nd division class of "main-game" is "main-game-info time and box "
+It consist game info like game time and pause button.
+*/
+/* class "main-game-info" consist player info and we want to represent them as gird */
+
+.main-game-info {
+    margin-top: var(--space-y);
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.main-game-info-box{
+    height:45px;
+    background-color: var(--bg-main);
+    color: var(--color-txt);
+    border-radius: var(--border-radius);
+    display: grid;
+    place-items: center;
+    padding: 0 80px;
+    font-size: var(--font-size);
+}
+
+.main-game-info-time {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2rem;
+    margin-bottom: auto;
+}
+
+/* Now we have one pause button,let's Add css to this button as well */
+.pause-btn{
+    position: absolute;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: var(--border-radius);
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: var(--font-size);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+/*
+3rd class in "main-gird" is "numbers".it consist 9 divisions.
+ Add css to number class
+ */
+.numbers{
+    margin-top: var(--space-y);
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 10px;
+}
+/*The 3rd class of "main-gird" is "numbers". and it has 9 divisions and under a class of "number */
+
+.number{
+    height: var(--sudoku-cell-size);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-main);
+    color: var(--color-txt);
+    display: grid;
+    place-items:center;
+    font-size: var(--font-size);
+    cursor: pointer;
+    width: var(--sudoku-cell-size);
+}
+/* We have one one class ""delete" under The 3rd class of "main-gird" which is "numbers"
+All properties are same as numbers But it's color is red,so one can easily see it.
+*/
+.delete{
+    background-color: var(--red);
+    color: var(--white);
+    height: var(--sudoku-cell-size);
+    border-radius: var(--border-radius);
+    display: grid;
+    place-items: center;
+    font-size: var(--font-size);
+    cursor: pointer;
+}
+/* In "pause-screen" class we have two options(division)
+1. Resume: if somone wants to resume current game
+2.New game: if somone wants to start new game
+And In "result-screen" class we have three divisions
+1. completed: if someone complete this game
+2.congrats: 
+3.new game
+what is want that ll these options should comes to user when user paused the game or completed it.
+ */
+.pause-screen,
+.result-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-body);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: none;
+}
+/* Since both these two class 2 and 4 division respectively */
+.pause-screen.active,
+.result-screen.active {
+    display: flex;
+}
+.pause-screen > * + *,
+.result-screen > * + * {
+    margin-top: 20px;
+}
+/* When result screen active */
+result-screen.active div {
+    animation: zoom-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pause-screen.active .btn {
+    animation: zoom-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.result-screen .congrate {
+    font-size: var(--font-size-xl);
+    color: var(--blue);
+}
+
+.result-screen .info {
+    color: var(--color-txt);
+    font-size: var(--font-size);
+}
+
+#result-time {
+    color: var(--blue);
+    font-size: var(--font-size-xl);
+}
+
+.zoom-in {
+    animation: zoom-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoom-in {
+    0% {
+        transform: scale(3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+/* The cubic-bezier() function defines a Cubic Bezier curve.
+
+A Cubic Bezier curve is defined by four points P0, P1, P2, and P3. P0 and P3 are the start and the end of the curve and, 
+in CSS these points are fixed as the coordinates are ratios. P0 is (0, 0) and represents the initial time and the initial state,
+ P3 is (1, 1) and represents the final time and the final state */
+.cell-err {
+    animation: zoom-out-shake 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875em;
+    margin-top: 100px;
+    background-color: rgb(195, 21, 24);
+    color: rgb(64, 45, 211);
+    height: 60px;
+    font-size: 27px;
+    padding: 0 12px;
+    font-family: 'Roboto', sans-serif;
+}
+
+@keyframes zoom-out-shake {
+    0% {
+        transform: scale(2);
+    }
+    25% {
+        transform: scale(2) rotate(30deg);
+    }
+    50% {
+        transform: scale(2) rotate(-30deg);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@media only screen and (max-width: 800px) {
+    :root {
+        --nav-size: 50px;
+
+        --sudoku-cell-size: 30px;
+
+        --border-radius: 5px;
+
+        --space-y: 10px;
+
+        --gap: 2px;
+
+        --font-size: 1rem;
+        --font-size-lg: 1.5rem;
+        --font-size-xl: 2rem;
+    }
+
+    .input-name,
+    .btn {
+        height: 50px;
+    }
+
+    .main-grid-cell.hover {
+        border-width: 2px;
+    }
+
+    .screen {
+        min-width: unset;
+    }
+
+    .main {
+        height: 100vh;
+    }
+}
